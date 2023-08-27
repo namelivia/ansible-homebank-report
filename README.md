@@ -11,3 +11,9 @@ collections:
 roles:
   - src: https://github.com/namelivia/ansible-homebank-report
 ```
+
+## Required variables
+
+ - `loki_url` Loki endpoint to send logs.
+ - `graphs_path`: Path to save the generated graphs in.
+ - `xml_file`: Homebank xml file to parse.

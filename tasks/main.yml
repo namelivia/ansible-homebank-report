@@ -1,4 +1,10 @@
 ---
+- name: 'Check mandatory variables are defined'
+  assert:
+    that:
+      - application_name is defined
+      - graphs_path is defined
+      - xml_file is defined
 
 - name: Create app container
   docker_container:
@@ -11,3 +17,6 @@
     log_options:
       loki-url: "{{ loki_url }}"
       loki-batch-size: "400"
+    env:
+      GRAPHS_PATH: "{{ graphs_path }}"
+      XML_FILE: "{{ xml_file }}"
