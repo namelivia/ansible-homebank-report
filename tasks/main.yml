@@ -6,6 +6,18 @@
       - graphs_path is defined
       - xml_file is defined
 
+- name: Create the graphs directory
+  file:
+    path: "{{ hostvars[inventory_hostname].working_directory }}/graphs"
+    state: directory
+    mode: 0700
+
+- name: Create the xml directory
+  file:
+    path: "{{ hostvars[inventory_hostname].working_directory }}/xml"
+    state: directory
+    mode: 0700
+
 - name: Create app container
   docker_container:
     name: "{{ application_name }}"
@@ -17,6 +29,9 @@
     log_options:
       loki-url: "{{ loki_url }}"
       loki-batch-size: "400"
+    volumes:
+      - "{{ hostvars[inventory_hostname].working_directory }}graphs:/graphs"
+      - "{{ hostvars[inventory_hostname].working_directory }}xml:/xml"
     env:
       GRAPHS_PATH: "{{ graphs_path }}"
       XML_FILE: "{{ xml_file }}"
