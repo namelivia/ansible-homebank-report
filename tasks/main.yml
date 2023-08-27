@@ -8,13 +8,13 @@
 
 - name: Create the graphs directory
   file:
-    path: "{{ hostvars[inventory_hostname].working_directory }}/graphs"
+    path: "{{ hostvars[inventory_hostname].working_directory }}{{ application_name}}/graphs"
     state: directory
     mode: 0700
 
 - name: Create the xml directory
   file:
-    path: "{{ hostvars[inventory_hostname].working_directory }}/xml"
+    path: "{{ hostvars[inventory_hostname].working_directory }}{{application_name}}/xml"
     state: directory
     mode: 0700
 
@@ -30,8 +30,8 @@
       loki-url: "{{ loki_url }}"
       loki-batch-size: "400"
     volumes:
-      - "{{ hostvars[inventory_hostname].working_directory }}graphs:/graphs"
-      - "{{ hostvars[inventory_hostname].working_directory }}xml:/xml"
+      - "{{ hostvars[inventory_hostname].working_directory }}{{ application_name }}/graphs:/graphs"
+      - "{{ hostvars[inventory_hostname].working_directory }}{{ application_name }}/xml:/xml"
     env:
       GRAPHS_PATH: "{{ graphs_path }}"
       XML_FILE: "{{ xml_file }}"
