@@ -17,3 +17,4 @@ roles:
  - `loki_url` Loki endpoint to send logs.
  - `graphs_path`: Path to save the generated graphs in.
  - `xml_file`: Homebank xml file to parse.
+ - `notifications_service_endpoint`: Endpoint for the notifications service.
