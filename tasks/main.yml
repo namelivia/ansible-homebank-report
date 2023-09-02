@@ -3,9 +3,10 @@
   assert:
     that:
       - application_name is defined
-      - notifications_service_endpoint is defined
+      - notifications_config_file is defined
       - graphs_path is defined
       - xml_file is defined
+      - notifications_config_path is defined
 
 - name: Create the graphs directory
   file:
@@ -18,6 +19,20 @@
     path: "{{ hostvars[inventory_hostname].working_directory }}{{application_name}}/xml"
     state: directory
     mode: 0700
+
+- name: Create the config directory
+  file:
+    path: "{{ hostvars[inventory_hostname].working_directory }}{{application_name}}/config"
+    state: directory
+    mode: 0700
+
+- name: Copy notifications config
+  copy:
+    src: "{{ notifications_config_path }}"
+    dest: "{{ hostvars[inventory_hostname].working_directory }}{{application_name}}/notifications_configuration.yml"
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
 
 - name: Create app container
   docker_container:
@@ -36,4 +51,4 @@
     env:
       GRAPHS_PATH: "{{ graphs_path }}"
       XML_FILE: "{{ xml_file }}"
-      NOTIFICATIONS_SERVICE_ENDPOINT: "{{ notifications_service_endpoint}}"
+      NOTIFICATIONS_CONFIG_FILE: "{{ notifications_config_file}}"
